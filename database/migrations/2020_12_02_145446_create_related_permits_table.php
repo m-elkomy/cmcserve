@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateRelatedPermitsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('related_permits', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('permits_id')->unsigned()->nullable();
+            $table->foreign('permits_id')->references('id')->on('permits')->onDelete('cascade');
+
+            $table->bigInteger('related_permits')->unsigned()->nullable();
+            $table->foreign('related_permits')->references('id')->on('permits')->onDelete('cascade');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('related_permits');
+    }
+}
